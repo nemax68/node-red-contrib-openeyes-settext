@@ -1,0 +1,204 @@
+<!--
+  Copyright 2019 OPEN-EYES S.r.l.
+
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<script type="text/javascript">
+    RED.nodes.registerType('set-text',{
+        category: 'OpenEyes',
+        color: '#a6bbcf',
+        defaults: {
+			wsize: {value:"100"},
+			hsize: {value:"100"},
+			xpos: {value:"0"},
+			ypos: {value:"0"},
+			bordersize: {value:"10"},
+			borderround: {value:"5"},
+			bordercol: {value:"000000"},
+			fontsize: {value:"30"},
+			fontcol: {value:"000000"},
+			maincol: {value:"FFFFFF"},
+			gradcol: {value:"000000"},
+			cmd: {value:"1"},
+            name: {value:""}    //  along with default values.
+       	},
+        inputs:1,
+        outputs:0,
+        icon: "list-of-files.png",
+	    label: function() {     // sets the default label contents
+            return this.name||this.topic||"set-text";
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        },
+        oneditprepare: function() {
+            $("#node-input-cmd").on("change",function() {
+                if (($("#node-input-cmd").val() === "1")) {
+                    $("#node-maincol").hide();
+                    $("#node-gradcol").hide();
+                    $("#node-wsize").hide();
+                    $("#node-hsize").hide();
+                    $("#node-xpos").show();
+                    $("#node-ypos").show();
+                    $("#node-fontcol").show();
+                    $("#node-fontsize").show();
+                    $("#node-bordercol").hide();
+                    $("#node-bordersize").hide();
+                    $("#node-borderround").hide();
+                } else if ($("#node-input-cmd").val() === "2") {
+                    $("#node-maincol").show();
+                    $("#node-gradcol").show();
+                    $("#node-wsize").show();
+                    $("#node-hsize").show();
+                    $("#node-xpos").show();
+                    $("#node-ypos").show();
+                    $("#node-fontcol").show();
+                    $("#node-fontsize").show();
+                    $("#node-bordercol").show();
+                    $("#node-bordersize").show();
+                    $("#node-borderround").show();
+                }
+            });
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="set-text">
+
+	<div class="form-row">
+		<label for="node-input-cmd"><i class="icon-tag"></i> text </label>
+		<select type="text" id="node-input-cmd" style="width:70%;">
+            <option value="1">Add text</option>
+            <option value="2">Add text box</option>
+        </select>
+	</div>
+
+    <div class="form-row" id="node-maincol">
+        <label for="node-input-maincol"> box color</label>
+        <input type="color" id="node-input-maincol" name="favcolor" >
+    </div>
+
+    <div class="form-row" id="node-gradcol">
+        <label for="node-input-gradcol"> gradient color</label>
+        <input type="color" id="node-input-gradcol" name="favcolor" >
+    </div>
+
+	<div class="form-row"  id="node-wsize">
+    	<label for="node-input-wsize"> width</label>
+    	<input type="text" id="node-input-wsize" placeholder="width">
+	</div>
+
+	<div class="form-row"  id="node-hsize">
+		<label for="node-input-hsize"> height</label>
+        <input type="text" id="node-input-hsize" placeholder="height">
+	</div>
+
+	<div class="form-row" id="node-xpos">
+        <label for="node-input-xpos"> pos x</label>
+        <input type="text" id="node-input-xpos" placeholder="box pixel y pos 0..350">
+	</div>
+
+	<div class="form-row" id="node-ypos">
+		<label for="node-input-ypos"> pos y</label>
+        <input type="text" id="node-input-ypos" placeholder="box pixel y pos 0..240">
+    </div>
+
+    <div class="form-row" id="node-fontcol">
+        <label for="node-input-fontcol"> Font color</label>
+        <input type="color" id="node-input-fontcol" name="favcolor" >
+    </div>
+
+	<div class="form-row" id="node-fontsize">
+		<label for="node-input-fontsize"> Font size</label>
+        <select type="text" id="node-input-fontsize" style="width:70%;">
+            <option value="10">10 pixel</option>
+            <option value="20">20 pixel</option>
+            <option value="30">30 pixel</option>
+            <option value="40">40 pixel</option>
+            <option value="50">50 pixel</option>
+            <option value="60">60 pixel</option>
+        </select>
+    </div>
+
+    <div class="form-row" id="node-bordercol">
+        <label for="node-input-bordercol"> border color</label>
+        <input type="color" id="node-input-bordercol" name="favcolor" >
+    </div>
+
+	<div class="form-row" id="node-bordersize">
+        <label for="node-input-bordersize"> Border size</label>
+        <input type="text" id="node-input-bordersize" placeholder="size">
+    </div>
+
+    <div class="form-row" id="node-borderround">
+        <label for="node-input-borderround"> Border round</label>
+        <input type="text" id="node-input-borderround" placeholder="round">
+    </div>
+
+	<div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+</form>
+</script>
+
+<script type="text/x-red" data-help-name="set-text">
+    <p>An OpenEyes GUI interface node that setup a text into LCD display</p>
+
+	<h3>Node properties</h3>
+    <ul>
+		<code>Button id</code> - Button identifier (1..6) used to match event with <code>GetButton</code>
+    </ul>
+    <ul>
+		<code>width/height</code> - Button width and height in pixels.
+    </ul>
+	<ul>
+		<code>pos x/y</code> - Button position from left top corner in pixels.
+    </ul>
+	<ul>
+		<code>Font size</code> - Button text area font size.
+    </ul>
+	<ul>
+		<code>Border size</code> - Button border size in pixels.
+    </ul>
+	<ul>
+		<code>Border round</code> - Button corner angle in pixels.
+    </ul>
+	<ul>
+		<code>Font color</code> - Font color in format rrggbb hex. ex 0000ff=blue 00ff00=green ff0000=red
+    </ul>
+	<ul>
+		<code>Button color</code> - Button color in format rrggbb hex.
+    </ul>
+	<ul>
+		<code>Border color</code> - Border color in format rrggbb hex.
+    </ul>
+	<ul>
+		<code>Gradient color</code> - Gradient color in format rrggbb hex.
+    </ul>
+	<ul>
+		<code>Name</code> - Name.
+    </ul>
+
+	<h3>Details</h3>
+    <p>Node that build a posix massage to inform LCD control task about button position, size and color and forward msg.payload into the button text area <p>
+
+	<h3>References</h3>
+    <ul>
+        <li><a>GitHub</a> - the nodes github repository</li>
+    </ul>
+
+</script>
