@@ -3,7 +3,7 @@
 		"posix-mq": "^1.1.2"
 	},
 	"name": "openeyes-settext",
-	"version": "0.0.4",
+	"version": "0.0.5",
 	"description": "Create TEXT on open-eyes LCD",
 	"repository": {
 		"type": "git",
